@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from api.dependencies import get_user_repository  # get_db,
-from application.dtos.auth_dto import AuthLoginDTO, AuthTokenDTO
-from application.use_cases.autenticar_usuario import AutenticarUsuarioUseCase
-from domain.exceptions import DomainException
+from src.api.dependencies import get_user_repository  # get_db,
+from src.application.dtos.auth_dto import AuthLoginDTO, AuthTokenDTO
+from src.application.use_cases.autenticar_usuario import AutenticarUsuarioUseCase
+from src.domain.exceptions import DomainException
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 

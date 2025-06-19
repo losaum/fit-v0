@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from config.settings import settings
+from src.config.settings import settings
 
 # Cria engine SQLite (arquivo local db.sqlite3)
 engine = create_engine(

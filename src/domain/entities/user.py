@@ -1,6 +1,6 @@
 from uuid import uuid4
 from datetime import datetime
-from domain.value_objects.email import EmailVO
+from src.domain.value_objects.email import EmailVO
 
 class User:
     def __init__(

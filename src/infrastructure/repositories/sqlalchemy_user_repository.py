@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
-from infrastructure.db.models import UserModel
-from domain.entities.user import User
-from domain.value_objects.email import EmailVO
-from domain.repositories.user_repository import UserRepository
+from src.infrastructure.db.models import UserModel
+from src.domain.entities.user import User
+from src.domain.value_objects.email import EmailVO
+from src.domain.repositories.user_repository import UserRepository
 
 
 class SQLAlchemyUserRepository(UserRepository):
@@ -34,8 +34,32 @@ class SQLAlchemyUserRepository(UserRepository):
             senha_hash=user.senha_hash,
             criado_em=user.criado_em,
         )
-        self.session.add(model)
+        self.session.merge(model)
         self.session.commit()
-        # Atualiza entidade a partir da ORM
-        user.id = model.id
-        user.criado_em = model.criado_em
+
+        return user
+
+    def get_by_id(self, id: str) -> User | None:
+        """Busca um usuário pelo ID
+
+        Args:
+            id (str): ID do usuário
+
+        Returns:
+            User | None: Usuário encontrado ou None se não existir
+        """
+        row = (
+            self.session.query(UserModel)
+            .filter(UserModel.id == id)
+            .first()
+        )
+        if not row:
+            return None
+
+        return User(
+            id=row.id,
+            nome=row.nome,
+            email=EmailVO(row.email),
+            senha_hash=row.senha_hash,
+            criado_em=row.criado_em,
+        )

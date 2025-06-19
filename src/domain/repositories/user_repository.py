@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from domain.entities.user import User
-from domain.value_objects.email import EmailVO
+from src.domain.entities.user import User
+from src.domain.value_objects.email import EmailVO
 
 
 class UserRepository(ABC):
@@ -11,4 +11,16 @@ class UserRepository(ABC):
 
     @abstractmethod
     def exists_by_email(self, email: EmailVO) -> Optional[User]:
+        pass
+
+    @abstractmethod
+    def get_by_id(self, id: str) -> Optional[User]:
+        """Busca um usuário pelo ID
+
+        Args:
+            id (str): ID do usuário
+
+        Returns:
+            Optional[User]: Usuário encontrado ou None se não existir
+        """
         pass

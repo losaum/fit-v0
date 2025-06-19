@@ -1,0 +1,54 @@
+import pytest
+from unittest.mock import Mock
+from datetime import datetime
+from src.domain.entities.user import User
+from src.domain.value_objects.email import EmailVO
+from src.domain.exceptions import DomainException
+from src.application.dtos.user_dto import UserCreateDTO
+from src.application.use_cases.cadastrar_user import CadastrarUsuarioUseCase
+
+@pytest.fixture
+def user_repository_mock():
+    return Mock()
+
+@pytest.fixture
+def valid_dto():
+    return UserCreateDTO(
+        nome="John Doe",
+        login="john@example.com",
+        senha="senha123"
+    )
+
+def test_cadastrar_usuario_com_sucesso(user_repository_mock, valid_dto):
+    # Arrange
+    user_repository_mock.exists_by_email.return_value = None
+    use_case = CadastrarUsuarioUseCase(user_repository_mock)
+
+    # Act
+    result = use_case.execute(valid_dto)
+
+    # Assert
+    assert result.nome == valid_dto.nome
+    assert str(result.email) == valid_dto.login
+    assert result.id is not None
+    assert isinstance(result.criado_em, datetime)
+    user_repository_mock.exists_by_email.assert_called_once()
+    user_repository_mock.save.assert_called_once()
+
+def test_cadastrar_usuario_email_ja_existe(user_repository_mock, valid_dto):
+    # Arrange
+    existing_user = User(
+        nome="Existing User",
+        email=EmailVO(valid_dto.login),
+        senha_hash="hash123"
+    )
+    user_repository_mock.exists_by_email.return_value = existing_user
+    use_case = CadastrarUsuarioUseCase(user_repository_mock)
+
+    # Act & Assert
+    with pytest.raises(DomainException) as exc_info:
+        use_case.execute(valid_dto)
+    
+    assert str(exc_info.value) == "E-mail já cadastrado."
+    user_repository_mock.exists_by_email.assert_called_once()
+    user_repository_mock.save.assert_not_called()

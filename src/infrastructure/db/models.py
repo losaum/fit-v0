@@ -3,7 +3,7 @@ from sqlalchemy.dialects.sqlite import JSON
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
-from infrastructure.db.base import Base
+from src.infrastructure.db.base import Base
 
 class UserModel(Base):
     __tablename__ = "users"

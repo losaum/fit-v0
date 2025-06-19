@@ -8,8 +8,12 @@ class EmailVO:
     """
 
     def __init__(self, value: str):
+        # Remove espaços e normaliza para minúsculas
+        value_normalized = value.strip().lower()
+
         try:
-            self._value = value#TypeAdapter(EmailStr).validate_python(value)
+            adapter = TypeAdapter(EmailStr)
+            self._value = adapter.validate_python(value_normalized)            
         except ValidationError:
             raise ValueError(f"E-mail inválido: {value}")
 

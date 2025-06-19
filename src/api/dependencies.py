@@ -3,11 +3,11 @@ from typing import Generator
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from infrastructure.db.base import SessionLocal
-from infrastructure.repositories.sqlalchemy_user_repository import (
+from src.infrastructure.db.base import SessionLocal
+from src.infrastructure.repositories.sqlalchemy_user_repository import (
     SQLAlchemyUserRepository,
 )
-from domain.repositories.user_repository import UserRepository
+from src.domain.repositories.user_repository import UserRepository
 
 
 def get_db() -> Generator[Session, None, None]:

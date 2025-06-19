@@ -4,6 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Thiago Berticelli Ló <losaum@gmail.com>"]
 readme = "README.md"
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -19,7 +20,21 @@ bcrypt = "^4.3.0"
 pytest = "^8.4.1"
 pytest-cov = "^6.2.1"
 taskipy = "^1.14.1"
+pytest-mock = "^3.14.1"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.taskipy.tasks]
+#run = 'uvicorn main:app --reload --app-dir src'
+run = 'fastapi dev src/main.py'
+
+test = 'pytest -s -x --cov=src -vv'
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --cov=src --cov-report=term-missing"
