@@ -1,0 +1,11 @@
+{
+    "workbench.settings.useSplitJSON": false,
+
+    "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,     // opcional, para ocultar .pyc gerados
+    },
+    "editor.multiCursorModifier": "ctrl",
+    "editor.gotoLocation.multipleDefinitions": "peek"
+  
+}
