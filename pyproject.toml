@@ -21,6 +21,8 @@ pytest = "^8.4.1"
 pytest-cov = "^6.2.1"
 taskipy = "^1.14.1"
 pytest-mock = "^3.14.1"
+httpx = "^0.28.1"
+pytest-asyncio = "^1.0.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -28,8 +30,10 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
 run = 'fastapi dev src/main.py'
+r = 'fastapi dev src/main.py'
 
 test = 'pytest -s -x --cov=src -vv'
+t = 'pytest -s -x --cov=src -vv'
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

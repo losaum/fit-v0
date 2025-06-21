@@ -1,4 +1,4 @@
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, UTC
 from jose import jwt
 from src.application.dtos.auth_dto import AuthLoginDTO, AuthTokenDTO
 from src.domain.IAM.user.value_objects.email import EmailVO
@@ -18,7 +18,7 @@ class AutenticarUsuarioUseCase:
         if not user or not self.password_service.verify_password(dto.senha, user.senha_hash):
             raise DomainException("Credenciais inválidas.")
 
-        expire = datetime.utcnow() + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+        expire = datetime.now(UTC) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
         payload = {"sub": user.id, "exp": expire}
         token = jwt.encode(payload, settings.JWT_SECRET, algorithm=settings.JWT_ALGORITHM)
         return AuthTokenDTO(access_token=token)

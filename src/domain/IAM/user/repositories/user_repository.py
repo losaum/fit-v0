@@ -1,16 +1,18 @@
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, TypeVar, Generic
 from src.domain.IAM.user.entities.user import User
 from src.domain.IAM.user.value_objects.email import EmailVO
 
+ProfileT = TypeVar('ProfileT')
 
-class UserRepository(ABC):
+
+class UserRepository(ABC, Generic[ProfileT]):
     @abstractmethod
-    def save(self, user: User) -> None:
+    def save(self, user: User, profile: Optional[ProfileT] = None) -> User:
         pass
 
     @abstractmethod
-    def exists_by_email(self, email: EmailVO) -> Optional[User]:
+    def find_by_email(self, email: EmailVO) -> Optional[User]:
         pass
 
     @abstractmethod

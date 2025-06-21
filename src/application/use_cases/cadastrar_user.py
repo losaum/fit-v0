@@ -12,14 +12,14 @@ class CadastrarUsuarioUseCase:
         self.password_service = PasswordService()
 
     def execute(self, dto: UserCreateDTO) -> UserReadDTO:
-        email_vo = EmailVO(dto.login)
+        email_vo = EmailVO(dto.email)
         if self.repo.exists_by_email(email_vo):
             raise DomainException("E-mail já cadastrado.")
         senha_hash = self.password_service.get_password_hash(dto.senha)
         user = User(
             email=email_vo,
             senha_hash=senha_hash,
-            roles=[UserRole.STUDENT],
+            roles=[UserRole.FITNESS],
             status=UserStatus.PENDING
         )
         self.repo.save(user)

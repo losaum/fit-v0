@@ -16,7 +16,7 @@ def valid_user():
     return User(
         email=EmailVO("john@example.com"),
         senha_hash=PasswordService().get_password_hash("senha_atual"),
-        roles=[UserRole.STUDENT],
+        roles=[UserRole.FITNESS],
         status=UserStatus.ACTIVE
     )
 

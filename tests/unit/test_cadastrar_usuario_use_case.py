@@ -14,7 +14,7 @@ def user_repository_mock():
 @pytest.fixture
 def valid_dto():
     return UserCreateDTO(
-        login="john@example.com",
+        email="john@example.com",
         senha="senha123"
     )
 
@@ -27,9 +27,9 @@ def test_cadastrar_usuario_com_sucesso(user_repository_mock, valid_dto):
     result = use_case.execute(valid_dto)
 
     # Assert
-    assert str(result.email) == valid_dto.login
+    assert str(result.email) == valid_dto.email
     assert result.id is not None
-    assert result.roles == [UserRole.STUDENT]
+    assert result.roles == [UserRole.FITNESS]
     assert result.status == UserStatus.PENDING
     assert isinstance(result.criado_em, datetime)
     user_repository_mock.exists_by_email.assert_called_once()
@@ -38,9 +38,9 @@ def test_cadastrar_usuario_com_sucesso(user_repository_mock, valid_dto):
 def test_cadastrar_usuario_email_ja_existe(user_repository_mock, valid_dto):
     # Arrange
     existing_user = User(
-        email=EmailVO(valid_dto.login),
+        email=EmailVO(valid_dto.email),
         senha_hash="hash123",
-        roles=[UserRole.STUDENT],
+        roles=[UserRole.FITNESS],
         status=UserStatus.ACTIVE
     )
     user_repository_mock.exists_by_email.return_value = existing_user

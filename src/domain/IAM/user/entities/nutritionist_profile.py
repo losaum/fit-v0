@@ -7,4 +7,9 @@ class NutritionistProfile:
     id: UUID
     full_name: str
     crn_number: str
-    specializations: List[str]
+    specialties: List[str] | None = None
+    certifications: List[str] | None = None
+    experience_years: str | None = None
+    availability: List[str] | None = None
+    dietary_approach: List[str] | None = None
+    bio: str | None = None
