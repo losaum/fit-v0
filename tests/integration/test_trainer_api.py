@@ -6,10 +6,10 @@ from src.main import app
 def client():
     return TestClient(app)
 
-def test_create_trainer(client):
+def test_create_trainer(client, db_session):
     # Dados para criar um trainer
     trainer_data = {
-        "email": "trainer_only@exemplo.com",
+        "email": "api_test_trainer@exemplo.com",
         "senha": "senha12345",
         "full_name": "Trainer Teste",
         "cref_number": "123456-G/SP",
@@ -33,10 +33,10 @@ def test_create_trainer(client):
     assert "id" in data
     assert "criado_em" in data
 
-def test_create_trainer_invalid_data(client):
+def test_create_trainer_invalid_data(client, db_session):
     # Dados inválidos (sem cref_number)
     invalid_data = {
-        "email": "trainer_invalid@exemplo.com",
+        "email": "api_test_trainer_invalid@exemplo.com",
         "senha": "senha12345",
         "full_name": "Trainer Teste"
     }

@@ -6,7 +6,6 @@ class TrainerProfileModel(Base):
     __tablename__ = 'trainer_profiles'
 
     id = Column(String, ForeignKey('users.id'), primary_key=True)
-    full_name = Column(String, nullable=False)
     cref_number = Column(String(20), nullable=False, unique=True)
     specialties = Column(Text, nullable=True)
     certifications = Column(Text, nullable=True)

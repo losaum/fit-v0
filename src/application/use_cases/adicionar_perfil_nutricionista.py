@@ -22,7 +22,6 @@ class AdicionarPerfilNutricionistaUseCase:
         # Cria o perfil de nutricionista
         nutritionist_profile = NutritionistProfile(
             id=user.id,
-            full_name=dto.full_name,
             crn_number=dto.crn_number,
             specialties=dto.specialties,
             certifications=dto.certifications,

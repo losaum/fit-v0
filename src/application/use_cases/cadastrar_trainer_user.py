@@ -6,6 +6,7 @@ from src.domain.IAM.user.value_objects.email import EmailVO
 from src.application.dtos.trainer_profile_dto import TrainerProfileCreateDTO
 from src.domain.IAM.shared.services.password_service import PasswordService
 from src.domain.IAM.user.repositories.user_repository import UserRepository
+from src.domain.IAM.shared.exceptions.domain_exceptions import DomainException
 
 class CadastrarTrainerUserUseCase:
     def __init__(self, user_repository: UserRepository, password_service: PasswordService):
@@ -16,7 +17,7 @@ class CadastrarTrainerUserUseCase:
         # Verifica se já existe usuário com o email
         email_vo = EmailVO(dto.email)
         if self.user_repository.find_by_email(email_vo):
-            raise ValueError("Email já cadastrado")
+            raise DomainException("Email já cadastrado")
 
         # Cria o hash da senha
         senha_hash = self.password_service.get_password_hash(dto.senha)
@@ -29,6 +30,7 @@ class CadastrarTrainerUserUseCase:
             id=user_id,
             email=email_vo,
             senha_hash=senha_hash,
+            full_name=dto.full_name,
             roles=[UserRole.TRAINER],
             status=UserStatus.PENDING
         )
@@ -36,7 +38,6 @@ class CadastrarTrainerUserUseCase:
         # Cria o perfil trainer com o mesmo ID do usuário
         trainer_profile = TrainerProfile(
             id=user_id,
-            full_name=dto.full_name,
             cref_number=dto.cref_number,
             specialties=dto.specialties,
             certifications=dto.certifications,

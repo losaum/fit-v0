@@ -29,7 +29,7 @@ def client(db_session: Session):
 def test_create_fitness(client):
     # Dados para criar um usuário fitness
     fitness_data = {
-        "email": "fitness@exemplo.com",
+        "email": "api_test_fitness@exemplo.com",
         "senha": "senha12345",
         "full_name": "Fitness Teste",
         "birth_date": "1990-01-01",

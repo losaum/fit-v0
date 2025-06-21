@@ -19,6 +19,7 @@ class CadastrarUsuarioUseCase:
         user = User(
             email=email_vo,
             senha_hash=senha_hash,
+            full_name=dto.full_name,
             roles=[UserRole.FITNESS],
             status=UserStatus.PENDING
         )

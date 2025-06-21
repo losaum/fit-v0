@@ -30,6 +30,7 @@ class SQLAlchemyUserRepository(UserRepository):
             id=row.id,
             email=EmailVO(row.email),
             senha_hash=row.senha_hash,
+            full_name=row.full_name,
             roles=[UserRole(role) for role in json.loads(row.roles)],
             status=row.status,
             criado_em=row.criado_em,
@@ -40,6 +41,7 @@ class SQLAlchemyUserRepository(UserRepository):
             id=user.id,
             email=user.email.value,
             senha_hash=user.senha_hash,
+            full_name=user.full_name,
             roles=json.dumps([role.value for role in user.roles]),
             status=user.status,
             criado_em=user.criado_em,
@@ -50,7 +52,6 @@ class SQLAlchemyUserRepository(UserRepository):
             if isinstance(profile, FitnessProfile):
                 db_profile = FitnessProfileModel(
                     id=str(profile.id),
-                    full_name=profile.full_name,
                     birth_date=profile.birth_date,
                     height=profile.height,
                     weight=profile.weight,
@@ -69,7 +70,6 @@ class SQLAlchemyUserRepository(UserRepository):
                 if not existing_profile:
                     db_profile = TrainerProfileModel(
                         id=str(profile.id),
-                        full_name=profile.full_name,
                         cref_number=profile.cref_number,
                         specialties=json.dumps(profile.specialties if profile.specialties is not None else []),
                         certifications=json.dumps(profile.certifications if profile.certifications is not None else []),
@@ -85,7 +85,6 @@ class SQLAlchemyUserRepository(UserRepository):
                 if not existing_profile:
                     db_profile = NutritionistProfileModel(
                         id=str(profile.id),
-                        full_name=profile.full_name,
                         crn_number=profile.crn_number,
                         specialties=json.dumps(profile.specialties if profile.specialties is not None else []),
                         certifications=json.dumps(profile.certifications if profile.certifications is not None else []),
@@ -120,6 +119,7 @@ class SQLAlchemyUserRepository(UserRepository):
             id=row.id,
             email=EmailVO(row.email),
             senha_hash=row.senha_hash,
+            full_name=row.full_name,
             roles=[UserRole(role) for role in json.loads(row.roles)],
             status=row.status,
             criado_em=row.criado_em,

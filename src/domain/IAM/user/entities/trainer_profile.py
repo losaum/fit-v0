@@ -5,7 +5,6 @@ from uuid import UUID
 @dataclass
 class TrainerProfile:
     id: UUID
-    full_name: str
     cref_number: str
     specialties: Optional[list[str]] = None
     certifications: Optional[list[str]] = None

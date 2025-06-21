@@ -47,13 +47,13 @@ class CadastrarFitnessUserUseCase:
             email=EmailVO(dto.email),
             senha_hash=senha_hash,
             roles=[UserRole.FITNESS],
-            status=UserStatus.PENDING
+            status=UserStatus.PENDING,
+            full_name=dto.full_name
         )
 
         # Cria o perfil fitness
         fitness_profile = FitnessProfile(
             id=user_id,
-            full_name=dto.full_name,
             birth_date=dto.birth_date,
             height=dto.height,
             weight=dto.weight,

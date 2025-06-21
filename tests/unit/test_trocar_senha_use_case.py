@@ -14,8 +14,9 @@ def user_repository_mock():
 @pytest.fixture
 def valid_user():
     return User(
-        email=EmailVO("john@example.com"),
+        email=EmailVO("usecase_test_password@example.com"),
         senha_hash=PasswordService().get_password_hash("senha_atual"),
+        full_name="Test Password User",
         roles=[UserRole.FITNESS],
         status=UserStatus.ACTIVE
     )

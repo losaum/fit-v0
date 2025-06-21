@@ -46,6 +46,7 @@ class NutritionistProfileDTO(BaseModel):
 class UserCreateDTO(BaseModel):
     email: EmailStr
     senha: constr(min_length=8)
+    full_name: str
     fitness_profile: Optional[FitnessProfileDTO] = None
     trainer_profile: Optional[TrainerProfileDTO] = None
     nutritionist_profile: Optional[NutritionistProfileDTO] = None
@@ -54,6 +55,7 @@ class UserCreateDTO(BaseModel):
 class UserReadDTO(BaseModel):
     id: str
     email: EmailStr
+    full_name: str
     roles: List[UserRole]
     status: UserStatus
     criado_em: datetime

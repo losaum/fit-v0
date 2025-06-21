@@ -19,7 +19,6 @@ class FitnessProfileCreateDTO(BaseModel):
 
 class FitnessProfileReadDTO(BaseModel):
     id: str
-    full_name: str
     birth_date: date
     height: float
     weight: float

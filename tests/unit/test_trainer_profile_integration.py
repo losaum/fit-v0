@@ -8,8 +8,9 @@ from src.domain.IAM.user.value_objects.email import EmailVO
 @pytest.fixture
 def sample_user():
     return User(
-        email=EmailVO("trainer@example.com"),
+        email=EmailVO("unit_test_trainer@example.com"),
         senha_hash="hashed_password",
+        full_name="João Silva",
         roles=[UserRole.TRAINER],
         status=UserStatus.ACTIVE,
         id="123e4567-e89b-12d3-a456-426614174000",
@@ -20,13 +21,11 @@ def sample_user():
 def sample_trainer_profile(sample_user):
     return TrainerProfile(
         id=UUID(sample_user.id),
-        full_name="João Silva",
         cref_number="123456-G/SP"
     )
 
 def test_create_trainer_profile(sample_trainer_profile):
     assert isinstance(sample_trainer_profile.id, UUID)
-    assert sample_trainer_profile.full_name == "João Silva"
     assert sample_trainer_profile.cref_number == "123456-G/SP"
 
 def test_user_trainer_role_integration(sample_user):

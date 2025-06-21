@@ -19,6 +19,7 @@ class User:
         self,
         email: EmailVO,
         senha_hash: str,
+        full_name: str,
         roles: List[UserRole] = None,
         status: UserStatus = UserStatus.PENDING,
         id: str = None,
@@ -27,6 +28,7 @@ class User:
         self.id = id or str(uuid4())
         self.email = email
         self.senha_hash = senha_hash
+        self.full_name = full_name
         self.roles = roles or [UserRole.FITNESS]
         self.status = status
         self.criado_em = criado_em or datetime.now(UTC)
@@ -46,6 +48,7 @@ class User:
         return {
             "id": self.id,
             "email": str(self.email),
+            "full_name": self.full_name,
             "roles": [role.value for role in self.roles],
             "status": self.status.value,
             "criado_em": self.criado_em

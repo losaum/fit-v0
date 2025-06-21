@@ -10,6 +10,7 @@ class UserModel(Base):
     id = Column(String, primary_key=True)
     email = Column(String, unique=True, nullable=False)
     senha_hash = Column(String, nullable=False)
+    full_name = Column(String, nullable=False)
     roles = Column(Text, nullable=False)
     status = Column(Enum(UserStatus), nullable=False)
     criado_em = Column(DateTime, nullable=False, default=lambda: datetime.now(UTC))

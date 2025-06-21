@@ -15,8 +15,9 @@ def user_repository(db_session):
 @pytest.fixture
 def sample_user():
     return User(
-        email=EmailVO("test@example.com"),
+        email=EmailVO("test_sample@example.com"),
         senha_hash="hashed_password123",
+        full_name="Test User",
         roles=[UserRole.FITNESS],
         status=UserStatus.PENDING
     )
@@ -25,15 +26,15 @@ def test_save_new_user_with_fitness_profile(db_session):
     # Arrange
     repository = SQLAlchemyUserRepository(db_session)
     user = User(
-        email=EmailVO("test@example.com"),
+        email=EmailVO("test_fitness@example.com"),
         senha_hash="hashed_password123",
+        full_name="Maria Silva",
         roles=[UserRole.FITNESS],
         status=UserStatus.PENDING
     )
 
     fitness_profile = FitnessProfile(
         id=user.id,
-        full_name="Maria Silva",
         birth_date=date(1990, 5, 15),
         height=165.0,
         weight=60.0,
@@ -57,7 +58,7 @@ def test_save_new_user_with_fitness_profile(db_session):
     # Busca o usuário do banco para verificar o perfil fitness
     db_user = db_session.query(UserModel).filter_by(id=user.id).first()
     assert db_user.fitness_profile is not None
-    assert db_user.fitness_profile.full_name == fitness_profile.full_name
+    assert db_user.full_name == user.full_name
     assert db_user.fitness_profile.height == fitness_profile.height
     assert db_user.fitness_profile.weight == fitness_profile.weight
 
@@ -109,15 +110,15 @@ def test_save_new_user_with_trainer_profile(db_session):
     # Arrange
     repository = SQLAlchemyUserRepository(db_session)
     user = User(
-        email=EmailVO("trainer@example.com"),
+        email=EmailVO("test_trainer@example.com"),
         senha_hash="hashed_password123",
         roles=[UserRole.TRAINER],
-        status=UserStatus.PENDING
+        status=UserStatus.PENDING,
+        full_name="João Silva"
     )
 
     trainer_profile = TrainerProfile(
         id=user.id,
-        full_name="João Silva",
         cref_number="123456-G/SP",
         specialties=["Musculação", "Crossfit"],
         certifications=["CREF", "Crossfit L1"],
@@ -138,7 +139,7 @@ def test_save_new_user_with_trainer_profile(db_session):
     # Busca o usuário do banco para verificar o perfil trainer
     db_user = db_session.query(UserModel).filter_by(id=user.id).first()
     assert db_user.trainer_profile is not None
-    assert db_user.trainer_profile.full_name == trainer_profile.full_name
+    assert db_user.full_name == user.full_name
     assert db_user.trainer_profile.cref_number == trainer_profile.cref_number
 def test_get_by_id_when_not_exists(user_repository):
     # Act

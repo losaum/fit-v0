@@ -6,7 +6,6 @@ from datetime import date
 @dataclass
 class FitnessProfile:
     id: UUID
-    full_name: str
     birth_date: date
     height: float  # em centímetros
     weight: float  # em quilogramas

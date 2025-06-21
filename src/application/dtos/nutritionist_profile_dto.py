@@ -16,7 +16,6 @@ class NutritionistProfileCreateDTO(BaseModel):
 
 class NutritionistProfileReadDTO(BaseModel):
     id: str
-    full_name: str
     crn_number: str
     specialties: Optional[List[str]] = None
     certifications: Optional[List[str]] = None

@@ -7,7 +7,6 @@ class FitnessProfileModel(Base):
     __tablename__ = 'fitness_profiles'
 
     id = Column(String, ForeignKey('users.id'), primary_key=True)
-    full_name = Column(String, nullable=False)
     birth_date = Column(Date, nullable=False)
     height = Column(Float, nullable=False)
     weight = Column(Float, nullable=False)

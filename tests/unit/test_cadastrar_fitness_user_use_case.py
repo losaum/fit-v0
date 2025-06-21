@@ -9,7 +9,7 @@ from src.domain.IAM.user.use_cases.cadastrar_fitness_user import CadastrarFitnes
 @pytest.fixture
 def valid_dto():
     return CadastrarFitnessUserDTO(
-        email="maria@example.com",
+        email="usecase_test_maria@example.com",
         senha="senha123",
         full_name="Maria Silva",
         birth_date=date(1990, 5, 15),
@@ -53,11 +53,11 @@ def test_cadastrar_fitness_user_com_sucesso(use_case, valid_dto, user_repository
     # Verifica o usuário criado
     assert str(saved_user.email) == valid_dto.email
     assert saved_user.id == user_id
+    assert saved_user.full_name == valid_dto.full_name
     assert saved_user.roles == [UserRole.FITNESS]
     assert saved_user.status == UserStatus.PENDING
 
     # Verifica o perfil fitness criado
-    assert saved_profile.full_name == valid_dto.full_name
     assert saved_profile.birth_date == valid_dto.birth_date
     assert saved_profile.height == valid_dto.height
     assert saved_profile.weight == valid_dto.weight

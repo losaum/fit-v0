@@ -16,7 +16,6 @@ class TrainerProfileCreateDTO(BaseModel):
 
 class TrainerProfileReadDTO(BaseModel):
     id: str
-    full_name: str
     cref_number: str
     specialties: Optional[List[str]] = None
     certifications: Optional[List[str]] = None

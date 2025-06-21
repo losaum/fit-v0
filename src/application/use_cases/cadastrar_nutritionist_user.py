@@ -27,6 +27,7 @@ class CadastrarNutritionistUserUseCase:
             id=user_id,
             email=email_vo,
             senha_hash=senha_hash,
+            full_name=dto.full_name,
             roles=[UserRole.NUTRITIONIST],
             status=UserStatus.PENDING
         )
@@ -34,7 +35,6 @@ class CadastrarNutritionistUserUseCase:
         # Cria o perfil nutritionist
         nutritionist_profile = NutritionistProfile(
             id=user_id,
-            full_name=dto.full_name,
             crn_number=dto.crn_number,
             specialties=dto.specialties,
             certifications=dto.certifications,

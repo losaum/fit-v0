@@ -24,7 +24,7 @@ def client(db_session):
 def test_create_nutritionist(client):
     # Dados para criar um nutricionista
     nutritionist_data = {
-        "email": "nutricionista_teste_2@exemplo.com",
+        "email": "api_test_nutritionist@exemplo.com",
         "senha": "senha12345",
         "full_name": "Nutricionista Teste",
         "crn_number": "12345"
@@ -45,7 +45,7 @@ def test_create_nutritionist(client):
 def test_create_nutritionist_invalid_data(client):
     # Dados inválidos (sem crn_number)
     invalid_data = {
-        "email": "nutricionista_invalid@exemplo.com",
+        "email": "api_test_nutritionist_invalid@exemplo.com",
         "senha": "senha12345",
         "full_name": "Nutricionista Teste"
     }
