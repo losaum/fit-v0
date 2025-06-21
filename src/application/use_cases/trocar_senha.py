@@ -1,7 +1,7 @@
-from src.domain.IAM.exceptions import DomainException
-from src.domain.IAM.repositories.user_repository import UserRepository
+from src.domain.IAM.shared.exceptions.domain_exceptions import DomainException
+from src.domain.IAM.user.repositories.user_repository import UserRepository
 from src.application.dtos.user_dto import UserPasswordChangeDTO
-from src.domain.IAM.services.password_service import PasswordService
+from src.domain.IAM.shared.services.password_service import PasswordService
 
 class TrocarSenhaUseCase:
     """Caso de uso para troca de senha do usuário"""

@@ -1,6 +1,8 @@
 from datetime import datetime
+from typing import List
 from pydantic import BaseModel, EmailStr, constr, field_validator
-from src.domain.IAM.value_objects.email import EmailVO
+from src.domain.IAM.user.value_objects.email import EmailVO
+from src.domain.IAM.user.entities.user import UserRole, UserStatus
 
 
 class UserPasswordChangeDTO(BaseModel):
@@ -11,15 +13,15 @@ class UserPasswordChangeDTO(BaseModel):
 
 
 class UserCreateDTO(BaseModel):
-    nome: constr(min_length=3)
     login: EmailStr
     senha: constr(min_length=8)
 
 
 class UserReadDTO(BaseModel):
     id: str
-    nome: str
     email: EmailStr
+    roles: List[UserRole]
+    status: UserStatus
     criado_em: datetime
 
     @field_validator('email', mode='before')

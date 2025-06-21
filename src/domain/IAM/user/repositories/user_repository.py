@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from src.domain.IAM.entities.user import User
-from src.domain.IAM.value_objects.email import EmailVO
+from src.domain.IAM.user.entities.user import User
+from src.domain.IAM.user.value_objects.email import EmailVO
 
 
 class UserRepository(ABC):

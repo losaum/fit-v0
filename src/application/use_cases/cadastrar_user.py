@@ -1,9 +1,9 @@
 from src.application.dtos.user_dto import UserCreateDTO, UserReadDTO
-from src.domain.IAM.entities.user import User
-from src.domain.IAM.value_objects.email import EmailVO
-from src.domain.IAM.repositories.user_repository import UserRepository
-from src.domain.IAM.exceptions import DomainException
-from src.domain.IAM.services.password_service import PasswordService
+from src.domain.IAM.user.entities.user import User, UserRole, UserStatus
+from src.domain.IAM.user.value_objects.email import EmailVO
+from src.domain.IAM.user.repositories.user_repository import UserRepository
+from src.domain.IAM.shared.exceptions.domain_exceptions import DomainException
+from src.domain.IAM.shared.services.password_service import PasswordService
 
 
 class CadastrarUsuarioUseCase:
@@ -16,6 +16,11 @@ class CadastrarUsuarioUseCase:
         if self.repo.exists_by_email(email_vo):
             raise DomainException("E-mail já cadastrado.")
         senha_hash = self.password_service.get_password_hash(dto.senha)
-        user = User(nome=dto.nome, email=email_vo, senha_hash=senha_hash)
+        user = User(
+            email=email_vo,
+            senha_hash=senha_hash,
+            roles=[UserRole.STUDENT],
+            status=UserStatus.PENDING
+        )
         self.repo.save(user)
         return UserReadDTO.model_validate(user)

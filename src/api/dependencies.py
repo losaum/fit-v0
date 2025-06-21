@@ -7,7 +7,7 @@ from src.infrastructure.db.base import SessionLocal
 from src.infrastructure.repositories.sqlalchemy_user_repository import (
     SQLAlchemyUserRepository,
 )
-from src.domain.IAM.repositories.user_repository import UserRepository
+from src.domain.IAM.user.repositories.user_repository import UserRepository
 
 
 def get_db() -> Generator[Session, None, None]:

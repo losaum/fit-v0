@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from src.infrastructure.db.models import UserModel
-from src.domain.IAM.entities.user import User
-from src.domain.IAM.value_objects.email import EmailVO
-from src.domain.IAM.repositories.user_repository import UserRepository
+from src.domain.IAM.user.entities.user import User, UserRole, UserStatus
+from src.domain.IAM.user.value_objects.email import EmailVO
+from src.domain.IAM.user.repositories.user_repository import UserRepository
 
 
 class SQLAlchemyUserRepository(UserRepository):
@@ -20,18 +20,20 @@ class SQLAlchemyUserRepository(UserRepository):
 
         return User(
             id=row.id,
-            nome=row.nome,
             email=EmailVO(row.email),
             senha_hash=row.senha_hash,
+            roles=[UserRole(role) for role in row.roles],
+            status=row.status,
             criado_em=row.criado_em,
         )
 
     def save(self, user: User) -> None:
         model = UserModel(
             id=user.id,
-            nome=user.nome,
             email=user.email.value,
             senha_hash=user.senha_hash,
+            roles=[role.value for role in user.roles],
+            status=user.status,
             criado_em=user.criado_em,
         )
         self.session.merge(model)
@@ -58,8 +60,9 @@ class SQLAlchemyUserRepository(UserRepository):
 
         return User(
             id=row.id,
-            nome=row.nome,
             email=EmailVO(row.email),
             senha_hash=row.senha_hash,
+            roles=[UserRole(role) for role in row.roles],
+            status=row.status,
             criado_em=row.criado_em,
         )

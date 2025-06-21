@@ -1,9 +1,9 @@
 import pytest
 from unittest.mock import Mock
-from src.domain.IAM.entities.user import User
-from src.domain.IAM.value_objects.email import EmailVO
-from src.domain.IAM.exceptions import DomainException
-from src.domain.IAM.services.password_service import PasswordService
+from src.domain.IAM.user.entities.user import User, UserRole, UserStatus
+from src.domain.IAM.user.value_objects.email import EmailVO
+from src.domain.IAM.shared.exceptions.domain_exceptions import DomainException
+from src.domain.IAM.shared.services.password_service import PasswordService
 from src.application.dtos.user_dto import UserPasswordChangeDTO
 from src.application.use_cases.trocar_senha import TrocarSenhaUseCase
 
@@ -14,9 +14,10 @@ def user_repository_mock():
 @pytest.fixture
 def valid_user():
     return User(
-        nome="John Doe",
         email=EmailVO("john@example.com"),
-        senha_hash=PasswordService().get_password_hash("senha_atual")
+        senha_hash=PasswordService().get_password_hash("senha_atual"),
+        roles=[UserRole.STUDENT],
+        status=UserStatus.ACTIVE
     )
 
 @pytest.fixture

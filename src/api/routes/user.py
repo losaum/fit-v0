@@ -4,7 +4,7 @@ from src.api.dependencies import get_user_repository # get_db,
 from src.application.dtos.user_dto import UserCreateDTO, UserReadDTO, UserPasswordChangeDTO
 from src.application.use_cases.cadastrar_user import CadastrarUsuarioUseCase
 from src.application.use_cases.trocar_senha import TrocarSenhaUseCase
-from src.domain.IAM.exceptions import DomainException
+from src.domain.IAM.shared.exceptions.domain_exceptions import DomainException
 
 router = APIRouter(prefix="/usuario", tags=["Usuario"])
 
