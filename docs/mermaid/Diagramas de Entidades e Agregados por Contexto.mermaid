@@ -1,0 +1,56 @@
+classDiagram
+    direction LR
+
+    class TrainingPlan {
+        <<Aggregate Root>>
+        +TrainingPlanId id
+        +StudentId studentId
+        +TrainerId trainerId
+        +List~DailyWorkout~ dailyWorkouts
+    }
+
+    class DailyWorkout {
+        +DailyWorkoutId id
+        +String label
+        +List~PrescribedExercise~ exercises
+    }
+
+    class PrescribedExercise {
+        +ExerciseId exerciseId
+        +String sets
+        +String reps
+    }
+
+    class WorkoutSession {
+        <<Aggregate Root>>
+        +WorkoutSessionId id
+        +StudentId studentId
+        +DateTime datePerformed
+        +int pse
+        +List~PerformedExercise~ performedExercises
+    }
+
+    class PerformedExercise {
+       +ExerciseId exerciseId
+       +List~PerformedSet~ sets
+    }
+
+    class PerformedSet {
+        +int repsCompleted
+        +float weightUsed
+    }
+
+    class TrainingTemplate {
+        <<Aggregate Root>>
+        +TrainingTemplateId id
+        +TrainerId trainerId
+        +String name
+    }
+
+    TrainingPlan "1" *-- "many" DailyWorkout : contém
+    DailyWorkout "1" *-- "many" PrescribedExercise : contém
+    WorkoutSession "1" *-- "many" PerformedExercise : contém
+    PerformedExercise "1" *-- "many" PerformedSet : contém
+
+    PrescribedExercise ..> Exercise : referencia
+    PerformedExercise ..> Exercise : referencia

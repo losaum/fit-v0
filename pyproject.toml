@@ -27,7 +27,6 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
-#run = 'uvicorn main:app --reload --app-dir src'
 run = 'fastapi dev src/main.py'
 
 test = 'pytest -s -x --cov=src -vv'

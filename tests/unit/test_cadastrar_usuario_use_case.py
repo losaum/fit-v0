@@ -1,9 +1,9 @@
 import pytest
 from unittest.mock import Mock
 from datetime import datetime
-from src.domain.entities.user import User
-from src.domain.value_objects.email import EmailVO
-from src.domain.exceptions import DomainException
+from src.domain.IAM.entities.user import User
+from src.domain.IAM.value_objects.email import EmailVO
+from src.domain.IAM.exceptions import DomainException
 from src.application.dtos.user_dto import UserCreateDTO
 from src.application.use_cases.cadastrar_user import CadastrarUsuarioUseCase
 

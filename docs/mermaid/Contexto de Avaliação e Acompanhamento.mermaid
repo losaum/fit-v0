@@ -1,0 +1,33 @@
+classDiagram
+    direction LR
+
+    class AnamnesisSubmission {
+        <<Aggregate Root>>
+        +AnamnesisId id
+        +StudentId studentId
+        +DateTime submissionDate
+        +List~Answer~ answers
+    }
+
+    class PhysicalAssessment {
+        <<Aggregate Root>>
+        +AssessmentId id
+        +StudentId studentId
+        +DateTime assessmentDate
+        +float weight
+        +List~BodyMeasurement~ measurements
+        +List~EvolutionPhoto~ photos
+    }
+
+    class BodyMeasurement {
+        +String bodyPart
+        +float value
+    }
+
+    class EvolutionPhoto {
+        +String url
+        +String view
+    }
+
+    PhysicalAssessment "1" *-- "many" BodyMeasurement : contém
+    PhysicalAssessment "1" *-- "many" EvolutionPhoto : contém

@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, EmailStr, constr, field_validator
-from src.domain.value_objects.email import EmailVO
+from src.domain.IAM.value_objects.email import EmailVO
 
 
 class UserPasswordChangeDTO(BaseModel):

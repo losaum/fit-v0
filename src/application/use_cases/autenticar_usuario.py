@@ -1,10 +1,10 @@
 from datetime import timedelta, datetime
 from jose import jwt
 from src.application.dtos.auth_dto import AuthLoginDTO, AuthTokenDTO
-from src.domain.value_objects.email import EmailVO
-from src.domain.repositories.user_repository import UserRepository
-from src.domain.exceptions import DomainException
-from src.domain.services.password_service import PasswordService
+from src.domain.IAM.value_objects.email import EmailVO
+from src.domain.IAM.repositories.user_repository import UserRepository
+from src.domain.IAM.exceptions import DomainException
+from src.domain.IAM.services.password_service import PasswordService
 from src.config.settings import settings
 
 class AutenticarUsuarioUseCase:

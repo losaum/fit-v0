@@ -1,9 +1,9 @@
 from src.application.dtos.user_dto import UserCreateDTO, UserReadDTO
-from src.domain.entities.user import User
-from src.domain.value_objects.email import EmailVO
-from src.domain.repositories.user_repository import UserRepository
-from src.domain.exceptions import DomainException
-from src.domain.services.password_service import PasswordService
+from src.domain.IAM.entities.user import User
+from src.domain.IAM.value_objects.email import EmailVO
+from src.domain.IAM.repositories.user_repository import UserRepository
+from src.domain.IAM.exceptions import DomainException
+from src.domain.IAM.services.password_service import PasswordService
 
 
 class CadastrarUsuarioUseCase:

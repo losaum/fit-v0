@@ -1,0 +1,24 @@
+graph TD
+    subgraph "Visão Geral dos Domínios (Bounded Contexts) - IARA"
+        A["<b>Identidade e Acesso</b><br>(Gerencia Usuários, Treinadores, Alunos)"]
+        B["<b>Treinamento</b><br>(Prescrição e registro de treinos)"]
+        C["<b>Nutrição</b><br>(Prescrição e registro de dietas)"]
+        D["<b>Avaliação e Acompanhamento</b><br>(Anamnese, medidas, fotos, feedback)"]
+        E["<b>Conteúdo e Bibliotecas</b><br>(Biblioteca de exercícios e alimentos)"]
+    end
+
+    B -- depende de --> A
+    C -- depende de --> A
+    D -- depende de --> A
+
+    B -- usa exercícios da --> E
+    C -- usa alimentos da --> E
+
+    D -- informa progresso para --> B
+    D -- informa progresso para --> C
+
+    style A fill:#e6e6fa,stroke:#333,stroke-width:2px
+    style B fill:#d7fcd4,stroke:#333,stroke-width:2px
+    style C fill:#fcf8d4,stroke:#333,stroke-width:2px
+    style D fill:#fcd4e4,stroke:#333,stroke-width:2px
+    style E fill:#d4ebfc,stroke:#333,stroke-width:2px

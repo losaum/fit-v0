@@ -1,0 +1,52 @@
+classDiagram
+    %% Define as classes que compõem o contexto de Treinamento
+    class TrainingPlan {
+        <<Aggregate Root>>
+        +id
+        +studentId
+        +trainerId
+        +startDate
+        +endDate
+    }
+    class DailyWorkout {
+        +id
+        +label
+    }
+    class PrescribedExercise {
+        +exerciseId
+        +sets
+        +reps
+        +restInterval
+    }
+    class WorkoutSession {
+        <<Aggregate Root>>
+        +id
+        +studentId
+        +datePerformed
+        +pse
+    }
+    class PerformedExercise {
+       +exerciseId
+    }
+    class PerformedSet {
+        +repsCompleted
+        +weightUsed
+    }
+    class TrainingTemplate {
+        <<Aggregate Root>>
+        +id
+        +trainerId
+        +name
+    }
+
+    %% Define as relações de composição (um contém o outro)
+    %% A relação "1" *-- "many" significa composição forte.
+    TrainingPlan "1" *-- "many" DailyWorkout : contém
+    DailyWorkout "1" *-- "many" PrescribedExercise : contém
+    WorkoutSession "1" *-- "many" PerformedExercise : contém
+    PerformedExercise "1" *-- "many" PerformedSet : contém
+
+    %% Define relações de referência (um usa o outro)
+    %% A relação ..> significa uma dependência ou referência.
+    PrescribedExercise ..> Exercise : referencia
+    PerformedExercise ..> Exercise : referencia

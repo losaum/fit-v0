@@ -1,0 +1,31 @@
+classDiagram
+    direction LR
+
+    class DietPlan {
+        <<Aggregate Root>>
+        +DietPlanId id
+        +StudentId studentId
+        +Goal calorieGoal
+        +List~Meal~ meals
+    }
+
+    class Meal {
+        +String name
+        +List~Dish~ dishes
+    }
+
+    class FoodLog {
+        <<Aggregate Root>>
+        +FoodLogId id
+        +StudentId studentId
+        +DateTime date
+        +List~LoggedMeal~ loggedMeals
+    }
+    
+    class LoggedMeal {
+        +String name
+        +bool isDoneAsPrescribed
+    }
+
+    DietPlan "1" *-- "many" Meal : contém
+    FoodLog "1" *-- "many" LoggedMeal : contém

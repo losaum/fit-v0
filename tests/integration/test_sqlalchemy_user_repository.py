@@ -1,6 +1,6 @@
 import pytest
-from src.domain.entities.user import User
-from src.domain.value_objects.email import EmailVO
+from src.domain.IAM.entities.user import User
+from src.domain.IAM.value_objects.email import EmailVO
 from src.infrastructure.repositories.sqlalchemy_user_repository import SQLAlchemyUserRepository
 
 @pytest.fixture
