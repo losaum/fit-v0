@@ -2,7 +2,6 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 class AddNutritionistProfileDTO(BaseModel):
-    full_name: str
     crn_number: str
     specialties: Optional[List[str]] = None
     certifications: Optional[List[str]] = None
