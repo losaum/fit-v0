@@ -3,12 +3,13 @@ from datetime import date, datetime
 from unittest.mock import Mock
 from src.domain.IAM.user.entities.user import UserRole, UserStatus
 from src.domain.IAM.user.value_objects.email import EmailVO
-from src.domain.IAM.user.services.password_service import PasswordService
-from src.domain.IAM.user.use_cases.cadastrar_fitness_user import CadastrarFitnessUserUseCase, CadastrarFitnessUserDTO
+from src.domain.IAM.shared.services.password_service import PasswordService
+from src.application.use_cases.cadastrar_fitness_user import CadastrarFitnessUserUseCase
+from src.application.dtos.fitness_profile_dto import FitnessProfileCreateDTO
 
 @pytest.fixture
 def valid_dto():
-    return CadastrarFitnessUserDTO(
+    return FitnessProfileCreateDTO(
         email="usecase_test_maria@example.com",
         senha="senha123",
         full_name="Maria Silva",
@@ -41,10 +42,10 @@ def test_cadastrar_fitness_user_com_sucesso(use_case, valid_dto, user_repository
     user_repository_mock.find_by_email.return_value = None
 
     # Executa o caso de uso
-    user_id = use_case.execute(valid_dto)
+    user_dict = use_case.execute(valid_dto)
 
     # Verifica se um ID foi retornado
-    assert user_id is not None
+    assert user_dict.get('id') is not None
 
     # Verifica se o usuário foi salvo
     user_repository_mock.save.assert_called_once()
@@ -52,7 +53,7 @@ def test_cadastrar_fitness_user_com_sucesso(use_case, valid_dto, user_repository
 
     # Verifica o usuário criado
     assert str(saved_user.email) == valid_dto.email
-    assert saved_user.id == user_id
+    assert saved_user.id == user_dict.get('id')
     assert saved_user.full_name == valid_dto.full_name
     assert saved_user.roles == [UserRole.FITNESS]
     assert saved_user.status == UserStatus.PENDING

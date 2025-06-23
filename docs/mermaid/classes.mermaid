@@ -1,0 +1,166 @@
+%%{init: { 'theme': 'base' } }%%
+
+classDiagram
+    %% Entidades principais
+    class User {
+        - id
+        - email
+        - password_hash
+        - full_name
+        - roles
+        - status
+        + add_role(role)
+        + has_role(role)
+        + to_dict()
+    }
+
+    class UserRole {
+        <<enumeration>>
+        ADMIN
+        FITNESS
+        TRAINER
+        NUTRITIONIST
+    }
+
+    class FitnessProfile {
+        - id
+        - height
+        - weight
+        - gender
+        - birth_date
+        - goals
+        - restrictions
+        - activity_level
+        + to_dict()
+    }
+
+    class TrainerProfile {
+        - id
+        - cref_number
+        - specialties
+        - certifications
+        - experience_years
+        - availability
+        - bio
+        + to_dict()
+    }
+
+    class NutritionistProfile {
+        - id
+        - crn_number
+        - specialties
+        - certifications
+        - experience_years
+        - availability
+        - dietary_approach
+        - bio
+        + to_dict()
+    }
+
+    %% DTOs
+    class FitnessProfileDTO {
+        + height
+        + weight
+        + gender
+        + birth_date
+        + goals
+        + restrictions
+        + activity_level
+    }
+
+    class TrainerProfileDTO {
+        + cref_number
+        + specialties
+        + certifications
+        + experience_years
+        + availability
+        + bio
+    }
+
+    class NutritionistProfileDTO {
+        + crn_number
+        + specialties
+        + certifications
+        + experience_years
+        + availability
+        + dietary_approach
+        + bio
+    }
+
+    class UserCreateDTO {
+        + email
+        + password
+        + full_name
+        + roles
+    }
+
+    class UserReadDTO {
+        + id
+        + email
+        + full_name
+        + roles
+        + status
+    }
+
+    %% Interfaces de Repositório
+    class UserRepository {
+        <<interface>>
+        + find_by_email(email)
+        + get_by_id(id)
+        + save(user, profile)
+    }
+
+    %% Implementações de Repositório
+    class SQLAlchemyUserRepository {
+        - session
+        + find_by_email(email)
+        + get_by_id(id)
+        + save(user, profile)
+    }
+
+    %% Use Cases
+    class CadastrarUsuarioUseCase {
+        - user_repository
+        + execute(dto)
+    }
+
+    class TrocarSenhaUseCase {
+        - user_repository
+        + execute(user_id, old_password, new_password)
+    }
+
+    class AdicionarPerfilNutricionistaUseCase {
+        - user_repository
+        + execute(user_id, dto)
+    }
+
+    class AdicionarPerfilFitnessUseCase {
+        - user_repository
+        + execute(user_id, dto)
+    }
+
+    class AdicionarPerfilTrainerUseCase {
+        - user_repository
+        + execute(user_id, dto)
+    }
+
+    %% Relacionamentos
+    User "1" *-- "0..1" FitnessProfile
+    User "1" *-- "0..1" TrainerProfile
+    User "1" *-- "0..1" NutritionistProfile
+    User --> UserRole
+
+    UserRepository <|.. SQLAlchemyUserRepository
+
+    CadastrarUsuarioUseCase ..> UserRepository
+    TrocarSenhaUseCase ..> UserRepository
+    AdicionarPerfilNutricionistaUseCase ..> UserRepository
+    AdicionarPerfilFitnessUseCase ..> UserRepository
+    AdicionarPerfilTrainerUseCase ..> UserRepository
+
+    UserCreateDTO ..> CadastrarUsuarioUseCase : uses
+    UserReadDTO ..> User : is a representation of
+    FitnessProfileDTO ..> AdicionarPerfilFitnessUseCase : uses
+    TrainerProfileDTO ..> AdicionarPerfilTrainerUseCase : uses
+    NutritionistProfileDTO ..> AdicionarPerfilNutricionistaUseCase : uses
+

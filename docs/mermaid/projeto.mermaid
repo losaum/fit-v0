@@ -1,0 +1,167 @@
+%%{init: { 'theme': 'base' } }%%
+
+classDiagram
+    %% Entidades principais
+    class User {
+        -UUID id
+        -String email
+        -String password_hash
+        -String full_name
+        -List roles
+        -String status
+        +void add_role(UserRole role)
+        +Boolean has_role(UserRole role)
+        +Dictionary to_dict()
+    }
+
+    class UserRole {
+        <<enumeration>>
+        ADMIN
+        FITNESS
+        TRAINER
+        NUTRITIONIST
+    }
+
+    class FitnessProfile {
+        -UUID id
+        -Float height
+        -Float weight
+        -String gender
+        -Date birth_date
+        -List goals
+        -List restrictions
+        -String activity_level
+        +Dictionary to_dict()
+    }
+
+    class TrainerProfile {
+        -UUID id
+        -String cref_number
+        -List specialties
+        -List certifications
+        -Integer experience_years
+        -Dictionary availability
+        -String bio
+        +Dictionary to_dict()
+    }
+
+    class NutritionistProfile {
+        -UUID id
+        -String crn_number
+        -List specialties
+        -List certifications
+        -Integer experience_years
+        -Dictionary availability
+        -String dietary_approach
+        -String bio
+        +Dictionary to_dict()
+    }
+
+    %% DTOs
+    class FitnessProfileDTO {
+        +Float height
+        +Float weight
+        +String gender
+        +Date birth_date
+        +List goals
+        +List restrictions
+        +String activity_level
+    }
+
+    class TrainerProfileDTO {
+        +String cref_number
+        +List specialties
+        +List certifications
+        +Integer experience_years
+        +Dictionary availability
+        +String bio
+    }
+
+    class NutritionistProfileDTO {
+        +String crn_number
+        +List specialties
+        +List certifications
+        +Integer experience_years
+        +Dictionary availability
+        +String dietary_approach
+        +String bio
+    }
+
+    class UserCreateDTO {
+        +String email
+        +String password
+        +String full_name
+        +List roles
+    }
+
+    class UserReadDTO {
+        +UUID id
+        +String email
+        +String full_name
+        +List roles
+        +String status
+    }
+
+    %% Interfaces de Repositório
+    class UserRepository {
+        <<interface>>
+        +Optional find_by_email(String email)
+        +Optional get_by_id(UUID id)
+        +User save(User user, Optional profile)
+    }
+
+    %% Implementações de Repositório
+    class SQLAlchemyUserRepository {
+        -Session session
+        +Optional find_by_email(String email)
+        +Optional get_by_id(UUID id)
+        +User save(User user, Optional profile)
+    }
+
+    %% Use Cases
+    class CadastrarUsuarioUseCase {
+        -UserRepository user_repository
+        +User execute(UserCreateDTO dto)
+    }
+
+    class TrocarSenhaUseCase {
+        -UserRepository user_repository
+        +void execute(UUID user_id, String old_password, String new_password)
+    }
+
+    class AdicionarPerfilNutricionistaUseCase {
+        -UserRepository user_repository
+        +NutritionistProfile execute(UUID user_id, NutritionistProfileDTO dto)
+    }
+
+    class AdicionarPerfilFitnessUseCase {
+        -UserRepository user_repository
+        +FitnessProfile execute(UUID user_id, FitnessProfileDTO dto)
+    }
+
+    class AdicionarPerfilTrainerUseCase {
+        -UserRepository user_repository
+        +TrainerProfile execute(UUID user_id, TrainerProfileDTO dto)
+    }
+
+    %% Relacionamentos
+    User "1" *-- "0..1" FitnessProfile
+    User "1" *-- "0..1" TrainerProfile
+    User "1" *-- "0..1" NutritionistProfile
+    User --> UserRole
+
+    UserRepository <|.. SQLAlchemyUserRepository
+
+    CadastrarUsuarioUseCase --> UserRepository
+    TrocarSenhaUseCase --> UserRepository
+    AdicionarPerfilNutricionistaUseCase --> UserRepository
+    AdicionarPerfilFitnessUseCase --> UserRepository
+    AdicionarPerfilTrainerUseCase --> UserRepository
+
+    UserCreateDTO --> User : creates
+    User --> UserReadDTO : converts to
+    FitnessProfileDTO --> FitnessProfile : creates
+    TrainerProfileDTO --> TrainerProfile : creates
+    NutritionistProfileDTO --> NutritionistProfile : creates
+
+ 

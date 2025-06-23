@@ -1,0 +1,120 @@
+flowchart TB
+    %% Definição das camadas principais
+    subgraph API["API Layer - FastAPI"]
+        direction TB
+        R["Routes"]
+        D["Dependencies"]
+        M["Middleware"]
+        subgraph EP["Endpoints"]
+            direction LR
+            EP_U["/users"]
+            EP_P["/profiles"]
+            EP_T["/trainers"]
+            EP_N["/nutritionists"]
+        end
+    end
+
+    subgraph APP["Application Layer"]
+        direction TB
+        subgraph UC["Use Cases"]
+            direction LR
+            UC_C["Cadastro"]
+            UC_A["Autenticação"]
+            UC_P["Perfis"]
+            UC_S["Senha"]
+        end
+        subgraph DTO["DTOs"]
+            direction LR
+            DTO_I["Input DTOs"]
+            DTO_O["Output DTOs"]
+        end
+        subgraph VAL["Validators"]
+            direction LR
+            V_D["Domain Validators"]
+            V_I["Input Validators"]
+        end
+    end
+
+    subgraph DOMAIN["Domain Layer - Clean Architecture"]
+        direction TB
+        subgraph IAM["Identity and Access Management"]
+            direction TB
+            subgraph AGG["Aggregates"]
+                direction LR
+                U["User"]
+                FP["Fitness Profile"]
+                TP["Trainer Profile"]
+                NP["Nutritionist Profile"]
+            end
+            subgraph SER["Domain Services"]
+                direction LR
+                AS["Auth Service"]
+                PS["Profile Service"]
+            end
+            subgraph EXC["Exceptions"]
+                direction LR
+                DE["Domain Exceptions"]
+                VE["Validation Exceptions"]
+            end
+            subgraph REP_I["Repository Interfaces"]
+                direction LR
+                UR_I["User Repository"]
+                PR_I["Profile Repository"]
+            end
+        end
+    end
+
+    subgraph INFRA["Infrastructure Layer"]
+        direction TB
+        subgraph DB["Database - SQLAlchemy"]
+            direction TB
+            SDB["SQLite Database"]
+            subgraph MOD["Models"]
+                direction LR
+                UM["User Model"]
+                PM["Profile Models"]
+            end
+        end
+        subgraph REPO["Repository Implementations"]
+            direction LR
+            UR["SQLAlchemy User Repository"]
+            PR["SQLAlchemy Profile Repository"]
+        end
+        subgraph SERV["Infrastructure Services"]
+            direction LR
+            HS["Hashing Service"]
+            TS["Token Service"]
+        end
+    end
+
+    %% Conexões entre componentes
+    EP --> UC
+    D --> REPO
+    M --> AS
+    UC_C --> DTO_I
+    UC_C --> U
+    UC_A --> AS
+    UC_P --> PS
+    DTO_I --> V_I
+    U --> REP_I
+    AGG --> SER
+    SER --> EXC
+    UR_I --> UR
+    PR_I --> PR
+    REPO --> MOD
+    MOD --> SDB
+    UR --> HS
+    AS --> TS
+
+    %% Estilo dos componentes
+    classDef layer fill:#f9f,stroke:#333,stroke-width:2px
+    classDef endpoint fill:#90EE90,stroke:#333
+    classDef service fill:#ADD8E6,stroke:#333
+    classDef model fill:#FFB6C1,stroke:#333
+    classDef exception fill:#FFD700,stroke:#333
+
+    class API,APP,DOMAIN,INFRA layer
+    class EP_U,EP_P,EP_T,EP_N endpoint
+    class AS,PS,HS,TS service
+    class UM,PM model
+    class DE,VE exception
